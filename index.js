@@ -9,9 +9,13 @@
 //
 // ****************************************************************************************
 
-// Just run the function but do not store the value, so we can see the require cache.
-require('./myscript.js'); // the ./ refers to a relative path
+const counterObject = require('./myscript.js'); 
 
-// All exported modules that are then required by a file 
-// will have their exported values go to a 'require cache':
-console.log(require.cache);
+// Check initial value of counter (expected: 0)
+console.log(counterObject.getCounter());
+
+// Increment counter
+counterObject.incrementCounter();
+
+// Check value again (expected: 1)
+console.log(counterObject.getCounter());
