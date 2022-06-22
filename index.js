@@ -9,9 +9,9 @@
 //
 // ****************************************************************************************
 
-const message = require('./myscript.js'); // the ./ refers to a relative path
+// Just run the function but do not store the value, so we can see the require cache.
+require('./myscript.js'); // the ./ refers to a relative path
 
-// arguments will print out the arguments of the main node function (exports, require, module, __filename, __dirname)
-console.log(arguments);
-
-console.log( { exports, require, module, __filename, __dirname } );
+// All exported modules that are then required by a file 
+// will have their exported values go to a 'require cache':
+console.log(require.cache);
