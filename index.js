@@ -14,3 +14,4 @@ const message = require('./myscript.js'); // the ./ refers to a relative path
 // arguments will print out the arguments of the main node function (exports, require, module, __filename, __dirname)
 console.log(arguments);
 
+console.log( { exports, require, module, __filename, __dirname } );
