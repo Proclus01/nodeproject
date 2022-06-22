@@ -1,5 +1,4 @@
-//jshint esversion:6
-const express = require("express");
+//jshint esversion:9
 
-// Add something in here
+console.log('hi there!');
 
