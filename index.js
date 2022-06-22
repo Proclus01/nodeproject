@@ -19,3 +19,9 @@ counterObject.incrementCounter();
 
 // Check value again (expected: 1)
 console.log(counterObject.getCounter());
+
+// If we require a second time
+const newCounterObject = require('./myscript.js'); 
+
+// we still get the same state because it's a reference to the original require
+console.log(newCounterObject.getCounter());
