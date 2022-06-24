@@ -4,7 +4,8 @@
 //
 //      App Description:
 //      
-//      Implement the 'ls' command using Node
+//      Implement the 'ls' command using Node including 'ls -a' and 'ls'
+//      Run program in terminal using 'nls' and it automatically fetches file path
 //
 // ****************************************************************************************
 
