@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+// ^ tell the computer to use node to execute this file directly
+
 //jshint esversion:9
 
 //****************************************************************************************
