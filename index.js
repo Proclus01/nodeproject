@@ -8,3 +8,15 @@
 //
 // ****************************************************************************************
 
+const fs = require('fs'); // require filesystem
+
+// read directory
+fs.readdir('.', (err, filenames) => { // 2 callback variables: error, filenames
+    if (err) {
+        // error handling code here
+        console.log(err);
+    }
+
+    // log the file names
+    console.log(filenames);
+}); 
