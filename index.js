@@ -42,12 +42,12 @@ const fileOrFolder = (inputFileName) => {
         }
     
         // Use <stats> object to confirm if item is file or folder
-        if (stats.isFile()) {
-            //
-            console.log(`${inputFileName} - Folder`);
-        } else if (stats.isDirectory()) {
+        if (stats.isFile() === true) {
             //
             console.log(`${inputFileName} - File`);
+        } else if (stats.isDirectory() === true) {
+            //
+            console.log(`${inputFileName} - Folder`);
         }
     });
     
