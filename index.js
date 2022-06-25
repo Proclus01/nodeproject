@@ -16,8 +16,11 @@
 const fs = require('fs'); // require filesystem
 const util = require('util'); // require util for...
 
-// Method #2 for handling lstat with promises
+// Method #2 for handling lstat with promises using promisify from utils
 const getlstat2 = utils.promisify(fs.lstat);
+
+// Method #3 for handling lstat with promises using fs.promises from fs
+const { getlstat3 } = fs.promises;
 
 // read current directory:
 //
@@ -49,6 +52,6 @@ const getlstat = (filename) => {
 
             // Resolve promise with the stats object
             resolve(stats);
-        })
+        });
     });
 };
