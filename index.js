@@ -23,32 +23,50 @@ const fs = require('fs'); // require filesystem
 //
 fs.readdir(process.cwd(), (err, filenames) => { // 2 callback variables: error, filenames
     if (err) {
-        // error handling code here
+        // Error handling code here
         console.log(err);
     }
 
-    // 
+    // Create array with length = filenames
+    // and fill the values with null
+    // This array will store the results of lstat
+    const allStats = Array(filenames.length).fill(null); 
+
+    // Iterate over every filename and call lstat to get <stats> object for filename
+    // then inspect stats object and validate
     for (let filename of filenames) {
-        fileOrFolder(filename);
-    }
-}); 
+        // Get index from for...of loop
+        const index = filenames.indexOf(filename);
 
-const fileOrFolder = (inputFileName) => {
+        // Inspect filename using lstat and then validate <stat> object returned
+        fs.lstat(filename, (err, stats) => {
+            if (err) {
+                // error handling code here
+                console.log(err);
+            }
+        
+            // Push value at index into allStats array
+            allStats[index] = stats;
 
-    fs.lstat('.', (err, stats) => {
-        if (err) {
-            // error handling code here
-            console.log(err);
-        }
-    
-        // Use <stats> object to confirm if item is file or folder
-        if (stats.isFile() === true) {
-            //
-            console.log(`${inputFileName} - File`);
-        } else if (stats.isDirectory() === true) {
-            //
-            console.log(`${inputFileName} - Folder`);
-        }
-    });
-    
-};
+            // Check if any value inside allStats == null
+            const ready = allStats.every(
+                // pass in iterator function to call for every element inside allstats
+                // iterator returns boolean value
+                (stats) => {
+                    return stats;
+                }
+            );
+
+            // If every value in allStats is not null, proceed to next step:
+            //      Check if the scanned file is a file or folder and log the name
+            if (ready) {
+                allStats.forEach(
+                    (stats, index) => {
+                        console.log(filenames[index], stats.isFile());
+                    }
+                );
+            }
+
+        }); //lstat end
+    } // for...of end
+}); // readdir end
