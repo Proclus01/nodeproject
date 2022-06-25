@@ -17,7 +17,7 @@ const fs = require('fs'); // require filesystem
 const util = require('util'); // require util for...
 
 // Method #2 for handling lstat with promises using promisify from utils
-const getlstat2 = utils.promisify(fs.lstat);
+const lstat = util.promisify(fs.lstat);
 
 // Method #3 for handling lstat with promises using fs.promises from fs
 const { getlstat3 } = fs.promises;
@@ -28,13 +28,24 @@ const { getlstat3 } = fs.promises;
 //      but now we replace the static path with process.cwd(),
 //      this lets us run our node app from anywhere in the file system.
 //
-fs.readdir(process.cwd(), (err, filenames) => { // 2 callback variables: error, filenames
+fs.readdir(process.cwd(), async (err, filenames) => { // 2 callback variables: error, filenames
     if (err) {
         // Error handling code here
         console.log(err);
     }
 
-    //
+    // Iterate over filenames
+    for (let filename of filenames) {
+        try {
+        // Await the result of our async function call
+        const stats = await lstat(filename); // switch out lstat for getlstat3 or getlstat
+
+        // Log the file data
+        console.log(filename, stats.isFile());
+        } catch (err) {
+            console.log(err);
+        }
+    } // for...of end
 }); // readdir end
 
 // Method #1 for handling lstat with promises
