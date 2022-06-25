@@ -16,6 +16,9 @@
 const fs = require('fs'); // require filesystem
 const util = require('util'); // require util for...
 
+// Method #2 for handling lstat with promises
+const getlstat2 = utils.promisify(fs.lstat);
+
 // read current directory:
 //
 //      First parameter is PATH, initially we tested it with '.' 
@@ -31,6 +34,7 @@ fs.readdir(process.cwd(), (err, filenames) => { // 2 callback variables: error, 
     //
 }); // readdir end
 
+// Method #1 for handling lstat with promises
 // Declare function wrapper with promise
 // Promise contains an lstat call to serialize our asynchronous code
 const getlstat = (filename) => {
