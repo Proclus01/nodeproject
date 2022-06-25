@@ -14,6 +14,7 @@
 // ****************************************************************************************
 
 const fs = require('fs'); // require filesystem
+const util = require('util'); // require util for...
 
 // read current directory:
 //
@@ -29,3 +30,21 @@ fs.readdir(process.cwd(), (err, filenames) => { // 2 callback variables: error, 
 
     //
 }); // readdir end
+
+// Declare function wrapper with promise
+// Promise contains an lstat call to serialize our asynchronous code
+const getlstat = (filename) => {
+    // Return a promise on function call
+    return new Promise((resolve, reject) => {
+        // Call lstat taking filename and stats as parameters
+        fs.lstat(filename, (err, stats) => {
+            // Reject the promise on error
+            if (err) {
+                reject(err);
+            }
+
+            // Resolve promise with the stats object
+            resolve(stats);
+        })
+    });
+};
