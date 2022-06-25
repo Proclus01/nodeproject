@@ -9,6 +9,7 @@
 //      
 //      Implement the 'ls' command using Node including 'ls -a' and 'ls'
 //      Run program in terminal using 'nls' and it automatically fetches file path
+//      Files and folders are coloured differently when read in terminal
 //
 // ****************************************************************************************
 
@@ -26,6 +27,28 @@ fs.readdir(process.cwd(), (err, filenames) => { // 2 callback variables: error, 
         console.log(err);
     }
 
-    // log the file names
-    console.log(filenames);
+    // 
+    for (let filename of filenames) {
+        fileOrFolder(filename);
+    }
 }); 
+
+const fileOrFolder = (inputFileName) => {
+
+    fs.lstat('.', (err, stats) => {
+        if (err) {
+            // error handling code here
+            console.log(err);
+        }
+    
+        // Use <stats> object to confirm if item is file or folder
+        if (stats.isFile()) {
+            //
+            console.log(`${inputFileName} - Folder`);
+        } else if (stats.isDirectory()) {
+            //
+            console.log(`${inputFileName} - File`);
+        }
+    });
+    
+};
