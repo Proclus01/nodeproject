@@ -17,10 +17,10 @@ const fs = require('fs'); // require filesystem
 const util = require('util'); // require util for...
 
 // Method #2 for handling lstat with promises using promisify from utils
-const lstat = util.promisify(fs.lstat);
+const lstat2 = util.promisify(fs.lstat);
 
 // Method #3 for handling lstat with promises using fs.promises from fs
-const { getlstat3 } = fs.promises;
+const { lstat } = fs.promises;
 
 // read current directory:
 //
@@ -34,21 +34,27 @@ fs.readdir(process.cwd(), async (err, filenames) => { // 2 callback variables: e
         console.log(err);
     }
 
-    // Iterate over filenames
-    for (let filename of filenames) {
-        try {
-        // Await the result of our async function call
-        const stats = await lstat(filename); // switch out lstat for getlstat3 or getlstat
+    // Map over the filenames array
+    // For each file name, call lstat and return the promise that gets created when we call it
+    const statPromises = filenames.map( filename => {
+        return lstat(filename);
+    });
 
-        // Log the file data
-        console.log(filename, stats.isFile());
-        } catch (err) {
-            console.log(err);
-        }
-    } // for...of end
+    // Promise.all will wait for all operations to resolve 
+    // and then we can store our results in a new array.
+    const allStats = await Promise.all(statPromises);
+
+    // Iterate over allStats
+    for (let stats of allStats) {
+        // Get index of every element passed in
+        const index = allStats.indexOf(stats);
+
+        // Log the filename at index with a boolean indicating File or Folder
+        console.log(filenames[index], stats.isFile());
+    }
 }); // readdir end
 
-// Method #1 for handling lstat with promises
+// Method #1 for handling lstat with promises (so we don't have to use callbacks so often)
 // Declare function wrapper with promise
 // Promise contains an lstat call to serialize our asynchronous code
 const getlstat = (filename) => {
