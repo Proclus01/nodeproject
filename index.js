@@ -13,8 +13,8 @@
 //
 // ****************************************************************************************
 
-const fs = require('fs'); // require filesystem
-const util = require('util'); // require util for...
+import fs from 'fs'; // require filesystem to get <stats> object and operate on it
+import chalk from 'chalk'; // require chalk for console coloring
 
 // Handling lstat with promises using fs.promises from fs
 const { lstat } = fs.promises;
@@ -47,6 +47,12 @@ fs.readdir(process.cwd(), async (err, filenames) => { // 2 callback variables: e
         const index = allStats.indexOf(stats);
 
         // Log the filename at index with a boolean indicating File or Folder
-        console.log(filenames[index], stats.isFile());
-    }
+        // Conditionally branch to normal text if file, colored if folder
+        if (stats.isFile()) {
+            console.log(filenames[index]);
+        } else {
+            console.log(chalk.red(filenames[index]));
+        }
+        
+    } // for...of end
 }); // readdir end
